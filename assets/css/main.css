@@ -9,11 +9,11 @@ Head
 Body
 -------------------------------------*/
 p { margin: 0 0 0 0; }
+.row {overflow: auto;}
 
-.row-enemies, .row-defender, .row-characters {
-	height: 170px;
-}
+
 div .character{
+	width: 150px;
 	text-align: center;
 	margin:0 10px 0 0;
 	padding: 10px;
