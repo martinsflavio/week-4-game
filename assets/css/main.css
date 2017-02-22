@@ -1,4 +1,4 @@
-body { background-image: url("../images/bPage.png"); }
+body { background-image: url("../images/bPage.png"); color: red; }
 
 /*------------------------------------
 Head
@@ -8,7 +8,25 @@ Head
 /*------------------------------------
 Body
 -------------------------------------*/
+p { margin: 0 0 0 0; }
 
+.row-enemies, .row-defender, .row-characters {
+	height: 170px;
+}
+div .character{
+	text-align: center;
+	margin:0 10px 0 0;
+	padding: 10px;
+	overflow: auto; 
+	display: inline-block;
+	background-color: white;
+	border:1px solid green;
+}
+img {
+	height: 100px;
+	width: 100px;
+	
+}
 
 /*------------------------------------
 Footer
