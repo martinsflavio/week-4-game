@@ -11,23 +11,12 @@ Body
 p { margin: 0 0 0 0; }
 .row {overflow: auto;}
 
-
-div .character{
-	width: 150px;
-	text-align: center;
-	margin:0 10px 0 0;
-	padding: 10px;
-	overflow: auto; 
-	display: inline-block;
-	background-color: white;
-	border:1px solid green;
-}
 img {
 	height: 100px;
 	width: 100px;
 	
 }
-
+div { border: 1px solid yellow;}
 /*------------------------------------
 Footer
 -------------------------------------*/
