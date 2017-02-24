@@ -48,7 +48,7 @@ function charDisplay (){
 		character
 			.append($("<img>").attr("src",charList[i].img));
 		character
-			.append($("<p class='hp'>").text("HP - " + charList[i].hp));
+			.append($("<p class='hp'>").text("HP : " + charList[i].hp));
 
 		charList[i].$me = character;
 
@@ -81,10 +81,11 @@ $(document).ready( function(){
 
 	//======= Fignt Table ================
 	$("#btn-attack").on("click", function(){
-
+		
 		player.attack(cpu);
 		cpu.defend(player);
-
+		$(".player").find(".hp").text("HP : " + player.hp);
+		$(".cpu").find(".hp").text("HP : " + cpu.hp);
 
 
 		if(player.hp < 1 ){
@@ -113,7 +114,6 @@ $(document).ready( function(){
 		charConstructor();
 		charDisplay();
 	});
-
 });
 
 
