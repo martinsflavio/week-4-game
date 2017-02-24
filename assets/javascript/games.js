@@ -1,8 +1,8 @@
 var charList = [];
 var playerChosed = false;
 var cpuChosed =false;
-var player;
-var cpu;
+var player = {};
+var cpu = {};
 //--------------------------
 function charConstructor(name, hp, ap, img) {
 	return{
@@ -12,8 +12,8 @@ function charConstructor(name, hp, ap, img) {
 		ap: ap,
 		countAP: 1,
 		img: img,
-		status: true,
 		$me:"",
+		live: true,
 		attack: function(enemie) {
 			enemie.hp -= this.ap * this.countAP;
 			this.countAP++;
@@ -23,10 +23,6 @@ function charConstructor(name, hp, ap, img) {
 		},		
 	};
 };
-//--------------------------
-var game = {
-	
-}
 //--------------------------
 function charDisplay (){
 	//= Declare Characters Here ==(id, name, Health Points, AttackPower)===
@@ -50,7 +46,7 @@ function charDisplay (){
 
 		charList[i].$me = character;
 
-		$(".character-container").append(charList[i].$me);
+		$("#character-container").append(charList[i].$me);
 	}
 }
 /*========================= Logic ===========================*/
@@ -74,33 +70,39 @@ $(document).ready( function(){
 			$("#cpu").append(charList[id].$me);
 		}
 	});
+
 	//======= Fignt Table ================
 	$("#btn-attack").on("click", function(){
-
 		player.attack(cpu);
 		cpu.defend(player);
 
-		console.log(player);
-		console.log(cpu);
-
-		if(player.hp <= 0){
+		if(player.hp < 1){
 			console.log("game over");
-
-		}else if (cpu.hp <= 0){
+		}else if (cpu.hp < 1){
 			console.log("enemie defeated, chose another one.");
 			cpuChosed = false;
-			cpu.status = false;
-			$("#cpu").empty();
-
+			cpu.live = false;
+			$("#trash").append($(".cpu"));
 		}
-	
+
+		console.log(player);
+		console.log(cpu);
 	});
-	//============ Restar Game ============
 
-function fight (){
-
-}
-
+	//============ Restart Game ============
+	$("#btn-restart").on("click", function(){
+		charList = [];
+		playerChosed = false;
+		cpuChosed =false;
+		player = {};
+		cpu = {};
+		$("#cpu").empty();
+		$("#player").empty();
+		$("#trash").empty();
+		$("#character-container").empty();
+		charConstructor();
+		charDisplay();
+	});
 
 });
 
