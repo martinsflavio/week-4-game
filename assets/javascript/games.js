@@ -1,6 +1,6 @@
 var charList = [];
 var playerChosed = false;
-var cpuChosed =false;
+var cpuChosed = false;
 var player = {};
 var cpu = {};
 //--------------------------
@@ -13,13 +13,19 @@ function charConstructor(name, hp, ap, img) {
 		countAP: 1,
 		img: img,
 		$me:"",
-		live: true,
+		chosed: false,
 		attack: function(enemie) {
 			enemie.hp -= this.ap * this.countAP;
 			this.countAP++;
+			if (enemie.hp < 1){
+				enemie.live = false;
+			}
 		},
 		defend: function(enemie){
 			enemie.hp -= this.ap * 2; // still working on it.
+			if (enemie.hp < 1){
+				enemie.live = false;
+			}
 		},		
 	};
 };
@@ -38,11 +44,11 @@ function charDisplay (){
 		character = $("<li class='character-list'>")
 			.attr("id",charList[i].id);
 		character
-			.append($("<p>").text(charList[i].name));
+			.append($("<p class='name'>").text(charList[i].name));
 		character
 			.append($("<img>").attr("src",charList[i].img));
 		character
-			.append($("<p>").text("HP - " + charList[i].hp));
+			.append($("<p class='hp'>").text("HP - " + charList[i].hp));
 
 		charList[i].$me = character;
 
@@ -62,26 +68,30 @@ $(document).ready( function(){
 			$(this).attr("class", "player");
 			player = charList[id];
 			playerChosed = true;
+			charList[id].chosed = true;
 			$("#player").append(charList[id].$me);
-		}else if (!cpuChosed){
+		}else if (!cpuChosed && !charList[id].chosed){
 			$(this).attr("class", "cpu");
 			cpu = charList[id];
 			cpuChosed = true;
+
 			$("#cpu").append(charList[id].$me);
 		}
 	});
 
 	//======= Fignt Table ================
 	$("#btn-attack").on("click", function(){
+
 		player.attack(cpu);
 		cpu.defend(player);
 
-		if(player.hp < 1){
+
+
+		if(player.hp < 1 ){
 			console.log("game over");
 		}else if (cpu.hp < 1){
 			console.log("enemie defeated, chose another one.");
 			cpuChosed = false;
-			cpu.live = false;
 			$("#trash").append($(".cpu"));
 		}
 
