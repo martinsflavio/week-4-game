@@ -6,44 +6,43 @@ var cpu = {};
 var winCount = 1;
 
 //--------------------------
-function charConstructor(name, hp, ap, img) {
+function charConstructor(name, hp, ap, countA, img) {
 	return{
 		id: 0,
 		name: name,
 		hp: hp,
 		ap: ap,
-		countAP: 1,
+		countA: countA,
 		img: img,
 		$me:"",
 		chosed: false,
+		rounds: 1,
 		attack: function(enemie) {
-			totalAP = this.ap * this.countAP;
-			enemie.hp -= totalAP;
-			this.countAP++;
+			this.totalPower = this.ap * this.rounds;
+			enemie.hp -= this.totalPower;
+			this.rounds++;
 			if (enemie.hp < 1){
 				enemie.live = false;
 			}
 		},
-		totalAP: 0,
 		defend: function(enemie){
-			totalDP = this.ap * 2;
-			enemie.hp -= totalDP; // still working on it.
+			enemie.hp -= countA;
 			if (enemie.hp < 1){
 				enemie.live = false;
 			}
 		},
-		totalDP: 0		
+		totalPower: 0,		
 	};
 };
 //--------------------------
 function charDisplay (){
 	//= Declare Characters Here ==(id, name, Health Points, AttackPower)===
-	charList.push(charConstructor("Qui Gon Jinn",120,8, "./assets/images/quiGonJinn.png"));
-	charList.push(charConstructor("Darth Maul",150,9, "./assets/images/dMaul.png"));
-	charList.push(charConstructor("Count Dooku",180,11, "./assets/images/dooku.png"));
-	charList.push(charConstructor("Anakin Skywallker",200,13, "./assets/images/luke.png"));
-	charList.push(charConstructor("General Grievous",210,14, "./assets/images/gGrievous.png"));
-	charList.push(charConstructor("Obi-Wan Kenobi",220,15, "./assets/images/obiWan.png"));
+	charList.push(charConstructor("Qui Gon Jinn",100,5,5, "./assets/images/quiGonJinn.png"));
+	charList.push(charConstructor("Darth Maul",120,8,6, "./assets/images/dMaul.png"));
+	charList.push(charConstructor("Count Dooku",150,10,4, "./assets/images/dooku.png"));
+	charList.push(charConstructor("Anakin Skywallker",180,20,4, "./assets/images/luke.png"));
+	charList.push(charConstructor("General Grievous",170,25,3, "./assets/images/gGrievous.png"));
+	charList.push(charConstructor("Obi-Wan Kenobi",180,15,5, "./assets/images/obiWan.png"));
 
 	//=====================================================================
 	for (var i = 0; i < charList.length; i++){
@@ -140,16 +139,16 @@ $(document).ready( function(){
 				cpu.defend(player);
 			$(".player").find(".hp").text("HP : " + player.hp);
 			$(".cpu").find(".hp").text("HP : " + cpu.hp);
-			$("#dialog-box1").text(player.name+" Attack "+cpu.name+" for "+totalAP+" points of Damage!");
-			$("#dialog-box2").text(cpu.name+" Attack back "+player.name+" for "+totalDP+" points of Damage!");
+			$("#dialog-box1").text(player.name+" Attack "+cpu.name+" for "+player.totalPower+" points of Damage!");
+			$("#dialog-box2").text(cpu.name+" Attack back "+player.name+" for "+cpu.ap+" points of Damage!");
 			
 			// cpu win = Game Over
-			if(player.hp < 0 ){
+			if(player.hp <= 0 ){
 				$("#dialog-box1").text("GAME OVER!");
 				$("#dialog-box2").text("Press Restart to play one more time.");
 			
 			// player win = Chose another opponent		
-			}else if (cpu.hp < 0){	
+			}else if (cpu.hp <= 0){	
 				$("#dialog-box1").text("YOU WIN!");
 				$("#dialog-box2").text("Enemie defeated, chose another one.");
 				cpuChosed = false;
