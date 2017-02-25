@@ -10,6 +10,7 @@ Body
 -------------------------------------*/
 .row {overflow: auto;}
 
+
 img {
 	height: 100px;
 	width: 100px;
@@ -38,6 +39,10 @@ img {
 	border:3px solid gray;
 	margin: 4px;
 	opacity: 0.1;
+}
+
+#dialog-box {
+	height: 50px;
 }
 
 //div { border: 1px solid yellow;}

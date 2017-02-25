@@ -3,7 +3,7 @@ var playerChosed = false;
 var cpuChosed = false;
 var player = {};
 var cpu = {};
-var winTest = false;
+var winCount = 1;
 
 //--------------------------
 function charConstructor(name, hp, ap, img) {
@@ -43,6 +43,7 @@ function charDisplay (){
 	charList.push(charConstructor("Darth Maul",160,13, "./assets/images/dMaul.png"));
 	charList.push(charConstructor("Count Dooku",200,13, "./assets/images/dooku.png"));
 	charList.push(charConstructor("Qui Gon Jinn",150,13, "./assets/images/quiGonJinn.png"));
+	charList.push(charConstructor("General Grievous",500,13, "./assets/images/gGrievous.png"));
 
 	//=====================================================================
 	for (var i = 0; i < charList.length; i++){
@@ -119,39 +120,40 @@ $(document).ready( function(){
 	//======= Fignt Table ================
 	$("#btn-attack").on("click", function(){
 		
-		if (player.hp > 1 && cpu.hp > 1){
+		//fight
+		if (player.hp > 0 && cpu.hp > 0){
 				player.attack(cpu);
 				cpu.defend(player);
 			$(".player").find(".hp").text("HP : " + player.hp);
 			$(".cpu").find(".hp").text("HP : " + cpu.hp);
 			$("#dialog-box1").text(player.name+" Attack "+cpu.name+" for "+totalAP+" points of Damage!");
 			$("#dialog-box2").text(cpu.name+" Attack back "+player.name+" for "+totalDP+" points of Damage!");
-		}
-	
-		if(player.hp < 1 ){
-			$("#dialog-box1").text("GAME OVER!");
-			$("#dialog-box2").text("Press Restart to play one more time.");
-		}else if (cpu.hp < 1){
-			$("#dialog-box1").text("YOU WIN!");
-			$("#dialog-box2").text("Enemie defeated, chose another one.");
-			cpuChosed = false;
-			$(".cpu").attr("class", "dead");
-			$("#trash").append($(".dead"));
-		}
-
-		//display wining message
-		/*if (){
 			
+			// cpu win = Game Over
+			if(player.hp < 0 ){
+				$("#dialog-box1").text("GAME OVER!");
+				$("#dialog-box2").text("Press Restart to play one more time.");
+			
+			// player win = Chose another opponent		
+			}else if (cpu.hp < 0){	
+				$("#dialog-box1").text("YOU WIN!");
+				$("#dialog-box2").text("Enemie defeated, chose another one.");
+				cpuChosed = false;
+				$(".cpu").attr("class", "dead");
+				$("#trash").append($(".dead"));
+				winCount++;
+			}
 		}
-		*/
-		$("#character-container").find(".character-list")
-			winTest = true;
-		});
 
-		if(winTest){
+
+		// display winning message
+		if(winCount === charList.length){
+
 			$("#character-container").append(winFlag());
+			$("#dialog-box1").empty();
+			$("#dialog-box2").empty();
 		}
-
+	});
 
 	//============ Restart Game ============
 	$("#btn-restart").on("click", function(){
@@ -160,13 +162,16 @@ $(document).ready( function(){
 		cpuChosed =false;
 		player = {};
 		cpu = {};
+		winCount = 1;
 		$("#cpu").empty();
 		$("#player").empty();
 		$("#trash").empty();
 		$("#character-container").empty();
-		
+		$("#dialog-box1").empty();
+		$("#dialog-box2").empty();
 		charDisplay();
 	});
+
 });
 
 
