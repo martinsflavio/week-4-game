@@ -15,24 +15,28 @@ function charConstructor(name, hp, ap, img) {
 		$me:"",
 		chosed: false,
 		attack: function(enemie) {
-			enemie.hp -= this.ap * this.countAP;
+			totalAP = this.ap * this.countAP;
+			enemie.hp -= totalAP;
 			this.countAP++;
 			if (enemie.hp < 1){
 				enemie.live = false;
 			}
 		},
+		totalAP: 0,
 		defend: function(enemie){
-			enemie.hp -= this.ap * 2; // still working on it.
+			totalDP = this.ap * 2;
+			enemie.hp -= totalDP; // still working on it.
 			if (enemie.hp < 1){
 				enemie.live = false;
 			}
-		},		
+		},
+		totalDP: 0		
 	};
 };
 //--------------------------
 function charDisplay (){
 	//= Declare Characters Here ==(id, name, Health Points, AttackPower)===
-	charList.push(charConstructor("luke Skywallker",100,5, "./assets/images/luke.png"));
+	charList.push(charConstructor("Luke Skywallker",100,5, "./assets/images/luke.png"));
 	charList.push(charConstructor("Obi-Wan Kenobi",120,8, "./assets/images/obiWan.png"));
 	charList.push(charConstructor("Darth Sidius",150,12, "./assets/images/dSidius.png"));
 	charList.push(charConstructor("Darth Maul",180,13, "./assets/images/dMaul.png"));
@@ -56,10 +60,11 @@ function charDisplay (){
 	}
 }
 /*========================= Logic ===========================*/
-charDisplay();
+
 
 $(document).ready( function(){
-
+	
+	charDisplay();
 	//===== Chosing Characters=========
 	$(".character-list").on("click", function(){
 		var id = parseInt($(this).attr("id"));
@@ -74,6 +79,7 @@ $(document).ready( function(){
 			$(this).attr("class", "cpu");
 			cpu = charList[id];
 			cpuChosed = true;
+			charList[id].chosed = true;
 
 			$("#cpu").append(charList[id].$me);
 		}
@@ -82,22 +88,25 @@ $(document).ready( function(){
 	//======= Fignt Table ================
 	$("#btn-attack").on("click", function(){
 		
-		player.attack(cpu);
-		cpu.defend(player);
-		$(".player").find(".hp").text("HP : " + player.hp);
-		$(".cpu").find(".hp").text("HP : " + cpu.hp);
-
-
-		if(player.hp < 1 ){
-			console.log("game over");
-		}else if (cpu.hp < 1){
-			console.log("enemie defeated, chose another one.");
-			cpuChosed = false;
-			$("#trash").append($(".cpu"));
+		if (player.hp > 1 && cpu.hp > 1){
+				player.attack(cpu);
+				cpu.defend(player);
+			$(".player").find(".hp").text("HP : " + player.hp);
+			$(".cpu").find(".hp").text("HP : " + cpu.hp);
+			$("#dialog-box1").text(player.name+" Attack "+cpu.name+" for "+totalAP+" points of Damage!");
+			$("#dialog-box2").text(cpu.name+" Attack back "+player.name+" for "+totalDP+" points of Damage!");
 		}
-
-		console.log(player);
-		console.log(cpu);
+	
+		if(player.hp < 1 ){
+			$("#dialog-box1").text("GAME OVER!");
+			$("#dialog-box2").text("Press Restart to play one more time.");
+		}else if (cpu.hp < 1){
+			$("#dialog-box1").text("YOU WIN!");
+			$("#dialog-box2").text("Enemie defeated, chose another one.");
+			cpuChosed = false;
+			$(".cpu").attr("class", "dead");
+			$("#trash").append($(".dead"));
+		}
 	});
 
 	//============ Restart Game ============
@@ -111,7 +120,7 @@ $(document).ready( function(){
 		$("#player").empty();
 		$("#trash").empty();
 		$("#character-container").empty();
-		charConstructor();
+		
 		charDisplay();
 	});
 });
@@ -119,8 +128,3 @@ $(document).ready( function(){
 
 
 
-
-
-
-
-console.log(charList);
