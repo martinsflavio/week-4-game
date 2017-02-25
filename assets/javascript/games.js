@@ -91,12 +91,26 @@ function winFlag (){
 
 	return result;
 }
+
 /*========================= Logic ===========================*/
 
 
 $(document).ready( function(){
 	
 	charDisplay();
+
+	//============ Music Player ============= 
+	$("#audio").on("click", function() {
+	 if (theme.paused == false) {
+	   theme.pause();
+	   $("#status").attr("class","glyphicon glyphicon-volume-off");
+	 } else {
+	   theme.play();
+	   	$("#status").attr("class","glyphicon glyphicon-volume-up");
+
+	 }
+	});
+
 	//===== Chosing Characters=========
 	$("#character-container").on("click", ".character-list", function(){
 		var id = parseInt($(this).attr("id"));
@@ -172,6 +186,13 @@ $(document).ready( function(){
 		charDisplay();
 	});
 
+	var theme = new Audio("./assets/audio/theme.mp3");
+	theme.addEventListener('ended', function() {
+	    this.currentTime = 0;
+	    this.play();
+	}, false);
+	theme.play();
+	theme.volume = 0.1;
 });
 
 
