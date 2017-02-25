@@ -3,6 +3,8 @@ var playerChosed = false;
 var cpuChosed = false;
 var player = {};
 var cpu = {};
+var winTest = false;
+
 //--------------------------
 function charConstructor(name, hp, ap, img) {
 	return{
@@ -36,10 +38,12 @@ function charConstructor(name, hp, ap, img) {
 //--------------------------
 function charDisplay (){
 	//= Declare Characters Here ==(id, name, Health Points, AttackPower)===
-	charList.push(charConstructor("Luke Skywallker",100,5, "./assets/images/luke.png"));
-	charList.push(charConstructor("Obi-Wan Kenobi",120,8, "./assets/images/obiWan.png"));
-	charList.push(charConstructor("Darth Sidius",150,12, "./assets/images/dSidius.png"));
-	charList.push(charConstructor("Darth Maul",180,13, "./assets/images/dMaul.png"));
+	charList.push(charConstructor("Anakin Skywallker",170,8, "./assets/images/luke.png"));
+	charList.push(charConstructor("Obi-Wan Kenobi",180,8, "./assets/images/obiWan.png"));
+	charList.push(charConstructor("Darth Maul",160,13, "./assets/images/dMaul.png"));
+	charList.push(charConstructor("Count Dooku",200,13, "./assets/images/dooku.png"));
+	charList.push(charConstructor("Qui Gon Jinn",150,13, "./assets/images/quiGonJinn.png"));
+
 	//=====================================================================
 	for (var i = 0; i < charList.length; i++){
 		var character;
@@ -59,6 +63,33 @@ function charDisplay (){
 		$("#character-container").append(charList[i].$me);
 	}
 }
+//--------------------------
+function winFlag (){
+	var result;
+	var array = [];
+
+	var yoda ="./assets/images/win/yoda";
+	var winFlag = ['"Do. Or do not. There is no try."',
+	'"Luminous beings are we... not this crude matter."',
+	'"Wars not make one great."',
+	'"Fear is the path to the dark side... fear leads to anger... anger leads to hate... hate leads to suffering."',
+	'"Judge me by my size, do you?"',
+	'"Adventure. Excitement. A Jedi craves not these things."',
+	'"A Jedi uses the Force for knowledge and defense, never for attack."',
+	'"Truly wonderful, the mind of a child is."',
+	'"When nine hundred years old you reach, look as good you will not."'];
+
+	//randon phrase
+	array[0] = winFlag[Math.floor(Math.random() * winFlag.length)]
+	//randon relative path from 1 to 3
+	array[1] = yoda + [Math.floor(Math.random() * 3)] +".png";
+	
+	result = $("<li class='winFlag'>");
+	result.append($("<img class= winFlag-img>").attr("src",array[1]));
+	result.append($("<p class= winFlag-text>").text(array[0]));
+
+	return result;
+}
 /*========================= Logic ===========================*/
 
 
@@ -66,7 +97,7 @@ $(document).ready( function(){
 	
 	charDisplay();
 	//===== Chosing Characters=========
-	$(".character-list").on("click", function(){
+	$("#character-container").on("click", ".character-list", function(){
 		var id = parseInt($(this).attr("id"));
 
 		if (!playerChosed){
@@ -107,7 +138,20 @@ $(document).ready( function(){
 			$(".cpu").attr("class", "dead");
 			$("#trash").append($(".dead"));
 		}
-	});
+
+		//display wining message
+		/*if (){
+			
+		}
+		*/
+		$("#character-container").find(".character-list")
+			winTest = true;
+		});
+
+		if(winTest){
+			$("#character-container").append(winFlag());
+		}
+
 
 	//============ Restart Game ============
 	$("#btn-restart").on("click", function(){
