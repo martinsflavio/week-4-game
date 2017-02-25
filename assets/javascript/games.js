@@ -38,12 +38,12 @@ function charConstructor(name, hp, ap, img) {
 //--------------------------
 function charDisplay (){
 	//= Declare Characters Here ==(id, name, Health Points, AttackPower)===
-	charList.push(charConstructor("Anakin Skywallker",170,8, "./assets/images/luke.png"));
-	charList.push(charConstructor("Obi-Wan Kenobi",180,8, "./assets/images/obiWan.png"));
-	charList.push(charConstructor("Darth Maul",160,13, "./assets/images/dMaul.png"));
-	charList.push(charConstructor("Count Dooku",200,13, "./assets/images/dooku.png"));
-	charList.push(charConstructor("Qui Gon Jinn",150,13, "./assets/images/quiGonJinn.png"));
-	charList.push(charConstructor("General Grievous",500,13, "./assets/images/gGrievous.png"));
+	charList.push(charConstructor("Qui Gon Jinn",120,8, "./assets/images/quiGonJinn.png"));
+	charList.push(charConstructor("Darth Maul",150,9, "./assets/images/dMaul.png"));
+	charList.push(charConstructor("Count Dooku",180,11, "./assets/images/dooku.png"));
+	charList.push(charConstructor("Anakin Skywallker",200,13, "./assets/images/luke.png"));
+	charList.push(charConstructor("General Grievous",210,14, "./assets/images/gGrievous.png"));
+	charList.push(charConstructor("Obi-Wan Kenobi",220,15, "./assets/images/obiWan.png"));
 
 	//=====================================================================
 	for (var i = 0; i < charList.length; i++){
