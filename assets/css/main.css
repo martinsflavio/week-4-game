@@ -40,12 +40,12 @@ img {
 	margin: 4px;
 	opacity: 0.1;
 }
-
 #dialog-box {
-	height: 80px;
+	height: 90px;
 }
+//#btn-special {display: none;}
 
-//div { border: 1px solid yellow;}
+
 /*------------------------------------
 Footer
 -------------------------------------*/

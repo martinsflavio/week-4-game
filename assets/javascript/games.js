@@ -6,7 +6,7 @@ var cpu = {};
 var winCount = 1;
 
 //--------------------------
-function charConstructor(name, hp, ap, countA, img) {
+function charConstructor(name, hp, ap, countA, sPower, unlockSpecial, img) {
 	return{
 		id: 0,
 		name: name,
@@ -15,34 +15,53 @@ function charConstructor(name, hp, ap, countA, img) {
 		countA: countA,
 		img: img,
 		$me:"",
+		sPower: 10,
+		unlockSpecial: unlockSpecial,
+		//======== Logic Section ==============
 		chosed: false,
 		rounds: 1,
+		sCounter: 0,
+		OKSpecial: false,
+		totalPower: 0,
+		//Special Attack
+		specialAttack: function(){
+			this.hp += this.sPower;
+			this.sCounter = 0;
+			this.OKSpecial = false;
+		},
+		// Attack
 		attack: function(enemie) {
 			this.totalPower = this.ap * this.rounds;
 			enemie.hp -= this.totalPower;
 			this.rounds++;
+			this.sCounter++;
+			// Activate Special attack method
+			if (this.sCounter === this.unlockSpecial){
+				this.OKSpecial = true;
+			}
+			// Enemie Dead
 			if (enemie.hp < 1){
 				enemie.live = false;
 			}
 		},
+		// Defend
 		defend: function(enemie){
 			enemie.hp -= countA;
 			if (enemie.hp < 1){
 				enemie.live = false;
 			}
-		},
-		totalPower: 0,		
+		}		
 	};
 };
 //--------------------------
 function charDisplay (){
-	//= Declare Characters Here ==(id, name, Health Points, AttackPower)===
-	charList.push(charConstructor("Qui Gon Jinn",100,5,5, "./assets/images/quiGonJinn.png"));
-	charList.push(charConstructor("Darth Maul",120,8,6, "./assets/images/dMaul.png"));
-	charList.push(charConstructor("Count Dooku",150,10,4, "./assets/images/dooku.png"));
-	charList.push(charConstructor("Anakin Skywallker",180,20,4, "./assets/images/luke.png"));
-	charList.push(charConstructor("General Grievous",170,25,3, "./assets/images/gGrievous.png"));
-	charList.push(charConstructor("Obi-Wan Kenobi",180,15,5, "./assets/images/obiWan.png"));
+	//= Declare Characters Here ==(name - HP - AttackP - CountAttack - Especial - unlockSpecial - Image)=
+	charList.push(charConstructor("Qui Gon Jinn",100,8,8,40,4,"./assets/images/quiGonJinn.png"));
+	charList.push(charConstructor("Darth Maul",120,8,8,20,2,"./assets/images/dMaul.png"));
+	charList.push(charConstructor("Count Dooku",140,10,5,15,5,"./assets/images/dooku.png"));
+	charList.push(charConstructor("Anakin Skywallker",178,10,5,15,4,"./assets/images/luke.png"));
+	charList.push(charConstructor("General Grievous",170,25,8,13,4,"./assets/images/gGrievous.png"));
+	charList.push(charConstructor("Obi-Wan Kenobi",180,40,25,5,4,"./assets/images/obiWan.png"));
 
 	//=====================================================================
 	for (var i = 0; i < charList.length; i++){
@@ -106,7 +125,6 @@ $(document).ready( function(){
 	 } else {
 	   theme.play();
 	   	$("#status").attr("class","glyphicon glyphicon-volume-up");
-
 	 }
 	});
 
@@ -137,11 +155,12 @@ $(document).ready( function(){
 		if (player.hp > 0 && cpu.hp > 0){
 				player.attack(cpu);
 				cpu.defend(player);
+			$("#dialog-box1, dialog-box2, #dialog-box3").empty();
 			$(".player").find(".hp").text("HP : " + player.hp);
 			$(".cpu").find(".hp").text("HP : " + cpu.hp);
 			$("#dialog-box1").text(player.name+" Attack "+cpu.name+" for "+player.totalPower+" points of Damage!");
 			$("#dialog-box2").text(cpu.name+" Attack back "+player.name+" for "+cpu.ap+" points of Damage!");
-			
+
 			// cpu win = Game Over
 			if(player.hp <= 0 ){
 				$("#dialog-box1").text("GAME OVER!");
@@ -158,16 +177,26 @@ $(document).ready( function(){
 			}
 		}
 
-
 		// display winning message
 		if(winCount === charList.length){
 
 			$("#character-container").append(winFlag());
-			$("#dialog-box1").empty();
-			$("#dialog-box2").empty();
+			$("#dialog-box1, dialog-box2, dialog-box3").empty();
 		}
 	});
 
+	//======= Especial Attack ================	
+	$("#btn-special").on("click", function(){	
+		if (player.OKSpecial){
+			player.specialAttack();
+			console.log("specialAttack unlocked");
+			$(".player").find(".hp").text("HP : " + player.hp);
+			$("#dialog-box3").text("Increasing HP!");
+			
+		}
+		console.log("button clicked");
+	});
+	
 	//============ Restart Game ============
 	$("#btn-restart").on("click", function(){
 		charList = [];
@@ -191,7 +220,7 @@ $(document).ready( function(){
 	    this.play();
 	}, false);
 	theme.play();
-	theme.volume = 0.1;
+	theme.volume = 0.5;
 });
 
 
