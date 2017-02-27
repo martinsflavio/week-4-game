@@ -55,13 +55,13 @@ function charConstructor(name, hp, ap, countA, sLevel, unlockSpecial, img) {
 };
 //--------------------------
 function charDisplay (){
-	//= Declare Characters Here ==(name - HP - AttackP - CountAttack - Especial - unlockSpecial - Image)=
-	charList.push(charConstructor("Qui Gon Jinn",100,8,8,40,4,"./assets/images/quiGonJinn.png"));
-	charList.push(charConstructor("Darth Maul",120,8,8,20,2,"./assets/images/dMaul.png"));
-	charList.push(charConstructor("Count Dooku",140,10,5,15,5,"./assets/images/dooku.png"));
-	charList.push(charConstructor("Anakin Skywallker",178,10,5,15,4,"./assets/images/luke.png"));
-	charList.push(charConstructor("General Grievous",170,25,8,13,4,"./assets/images/gGrievous.png"));
-	charList.push(charConstructor("Obi-Wan Kenobi",180,40,25,5,4,"./assets/images/obiWan.png"));
+	//= Declare Characters Here ==(name - HP - AttackP - CountAttack - sLevel - unlockSpecial - Image)=
+	charList.push(charConstructor("Qui Gon Jinn",100,8,8,40,10,"./assets/images/quiGonJinn.png"));
+	charList.push(charConstructor("Darth Maul",120,8,8,20,10,"./assets/images/dMaul.png"));
+	charList.push(charConstructor("Count Dooku",140,10,5,15,10,"./assets/images/dooku.png"));
+	charList.push(charConstructor("Anakin Skywallker",178,10,5,15,10,"./assets/images/luke.png"));
+	charList.push(charConstructor("General Grievous",170,25,8,13,18,"./assets/images/gGrievous.png"));
+	charList.push(charConstructor("Obi-Wan Kenobi",180,40,25,5,20,"./assets/images/obiWan.png"));
 
 	//=====================================================================
 	for (var i = 0; i < charList.length; i++){
