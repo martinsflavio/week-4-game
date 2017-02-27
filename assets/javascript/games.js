@@ -124,7 +124,6 @@ $(document).ready( function(){
 
 /*========================= Functions ===========================*/
 
-
 //------------- Object constructor -------------
 function charConstructor(name, hp, ap, countA, sLevel, unlockSpecial, img) {
 	return{
