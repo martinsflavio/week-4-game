@@ -6,7 +6,7 @@ var cpu = {};
 var winCount = 1;
 
 //--------------------------
-function charConstructor(name, hp, ap, countA, sPower, unlockSpecial, img) {
+function charConstructor(name, hp, ap, countA, sLevel, unlockSpecial, img) {
 	return{
 		id: 0,
 		name: name,
@@ -15,7 +15,7 @@ function charConstructor(name, hp, ap, countA, sPower, unlockSpecial, img) {
 		countA: countA,
 		img: img,
 		$me:"",
-		sPower: 10,
+		sLevel: sLevel,
 		unlockSpecial: unlockSpecial,
 		//======== Logic Section ==============
 		chosed: false,
@@ -25,7 +25,7 @@ function charConstructor(name, hp, ap, countA, sPower, unlockSpecial, img) {
 		totalPower: 0,
 		//Special Attack
 		specialAttack: function(){
-			this.hp += this.sPower;
+			this.hp += this.sLevel;
 			this.sCounter = 0;
 			this.OKSpecial = false;
 		},
@@ -150,7 +150,10 @@ $(document).ready( function(){
 
 	//======= Fignt Table ================
 	$("#btn-attack").on("click", function(){
-		
+		// display special button
+		if (player.OKSpecial){
+			$("#btn-special").css({"display":"block"})
+		}
 		//fight
 		if (player.hp > 0 && cpu.hp > 0){
 				player.attack(cpu);
@@ -192,6 +195,8 @@ $(document).ready( function(){
 			console.log("specialAttack unlocked");
 			$(".player").find(".hp").text("HP : " + player.hp);
 			$("#dialog-box3").text("Increasing HP!");
+			$("#btn-special").css({"display":"none"})
+
 			
 		}
 		console.log("button clicked");
